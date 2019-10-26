@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">ShopList</string>
+    
+    <!-- main_menu -->
+    <string name="delete_done">Delete Done</string>
+    <string name="mark_all_as_completed">Mark All As Completed</string>
+    <string name="delete_all">Delete All</string>
+</resources>
