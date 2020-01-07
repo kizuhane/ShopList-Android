@@ -5,7 +5,9 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context=".MainActivity"
+        android:background="?attr/backgroundColor"
+        >
 
     <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
@@ -25,8 +27,8 @@
             android:layout_margin="16dp"
             android:clickable="true"
             android:focusable="true"
-            app:backgroundTint="@color/colorCallToAction"
-            android:tint="@color/colorCallToActionText"
+            app:backgroundTint="?attr/buttonColor"
+            android:tint="?attr/buttonSecondary"
             />
 
 </RelativeLayout>

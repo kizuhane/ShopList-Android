@@ -2,11 +2,13 @@ package com.example.kizuhane.shoplist;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.graphics.Paint;
+import android.content.Intent;
+import android.graphics.LightingColorFilter;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -15,6 +17,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import java.util.List;
@@ -32,12 +36,21 @@ public class MainActivity extends AppCompatActivity implements AddNoteActivity.A
     public static final String DESCRIPTION_INDICATOR = "com.example.kizuhane.shoplist.DESCRIPTION_INDICATOR";
     public static final String COMPLETE_INDICATOR = "com.example.kizuhane.shoplist.COMPLETE_INDICATOR";
 
-
-
+    private Switch toggleThemeBtn;
     private NoteViewModel noteViewModel;
+    private ThemePref themePref;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // toggle night mode
+        themePref= new ThemePref(this);
+        if (themePref.loadNightModeState()){
+            setTheme(R.style.darkTheme);
+        }else{
+            setTheme(R.style.AppTheme);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -62,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements AddNoteActivity.A
             @Override
             public void onChanged(@Nullable List<Note> notes) {
                 //update RecyclerView
-                adapter.setNotes(notes);
+                adapter.submitList(notes);
             }
         });
 
@@ -162,6 +175,7 @@ public class MainActivity extends AppCompatActivity implements AddNoteActivity.A
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         switch (item.getItemId()){
             case R.id.menu_delete_all_notes:
                 noteViewModel.deleteAllNotes();
@@ -170,9 +184,25 @@ public class MainActivity extends AppCompatActivity implements AddNoteActivity.A
             case R.id.menu_delete_done_notes:
                 noteViewModel.deleteAllCompleteNotes();
                 Toast.makeText(this, "All completed item deleted", Toast.LENGTH_SHORT).show();
+            case R.id.toggle_night_theme_switch:
+                // toggleTheme
+                if (themePref.loadNightModeState()) {
+                    themePref.setNightModeState(false);
+                    RefreshApp();
+                }else{
+                    themePref.setNightModeState(true);
+                    RefreshApp();
+                }
+
+                Toast.makeText(this, "Change Theme", Toast.LENGTH_SHORT).show();
             default:
                 return super.onOptionsItemSelected(item);
         }
 
+    }
+    private void RefreshApp(){
+        Intent i = new Intent(getApplicationContext(),MainActivity.class);
+        startActivity(i);
+        recreate();
     }
 }

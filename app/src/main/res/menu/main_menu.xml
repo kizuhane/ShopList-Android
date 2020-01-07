@@ -5,8 +5,13 @@
 
 <item android:id="@+id/menu_delete_done_notes"
           android:title="@string/delete_done"
-          app:showAsAction="never"/>
+          app:showAsAction="never" />
     <item android:id="@+id/menu_delete_all_notes"
           android:title="@string/delete_all"
-          app:showAsAction="never"/>
+          app:showAsAction="never" />
+    <item
+            android:id="@+id/toggle_night_theme_switch"
+            android:title="Night Mode"
+            app:showAsAction="never" />
+
 </menu>
